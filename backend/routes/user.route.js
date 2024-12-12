@@ -7,6 +7,7 @@ require("dotenv");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 userRouter.post("/register", async (req, res) => {
+  console.log(req.body);
   const { email, firstname, lastname, password } = req.body;
   if (
     typeof email !== "string" ||
@@ -17,8 +18,8 @@ userRouter.post("/register", async (req, res) => {
     res.status(400).json({ message: "Invalid request body." });
   } else {
     try {
-      const isExistingUser = await UserModel.find({ email });
-      if (isExistingUser[0]) {
+      const isExistingUser = await UserModel.findOne({ email });
+      if (isExistingUser) {
         res.status(409).json({ message: "email already registered" });
       } else {
         bcrypt.hash(password, 4, async (err, hash) => {
@@ -35,6 +36,7 @@ userRouter.post("/register", async (req, res) => {
                 password: hash,
               });
               await newUSer.save();
+              res.status(201).json({ message: "Account Created" });
             } catch (error) {
               res
                 .status(500)
@@ -61,15 +63,17 @@ userRouter.post("/search-by-email", async (req, res) => {
     try {
       const isExistingUser = await UserModel.findOne({ email });
       if (isExistingUser) {
-        res.json({ message: "UserExist" });
-      }else{
-        res.status(404).json({message:"User not found"})
+        res.json({ message: "UserExist",isExisting:true });
+      } else {
+        res.json({ message: "User not found",isExisting:false });
       }
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Internal server error, please try again." });
     }
-   catch (error) {
-      res.status(500).json({message:"Internal server error, please try again."})
-    }
-}});
+  }
+});
 
 userRouter.post("/signin", async (req, res) => {
   const { email, password } = req.body;
@@ -95,9 +99,15 @@ userRouter.post("/signin", async (req, res) => {
             const token = jwt.sign(
               { email, firstname: user.firstname, lastname: user.lastname },
               JWT_SECRET,
-              { algorithm: "RS256" }
+              { algorithm: "HS256" }
             );
-            res.json({ message: "Login Sucess", token });
+            res.json({
+              message: "Login Success",
+              token,
+              email,
+              firstname: user.firstname,
+              lastname: user.lastname,
+            });
           } else {
             res
               .status(500)
@@ -114,4 +124,4 @@ userRouter.post("/signin", async (req, res) => {
   }
 });
 
-module.exports = userRouter
+module.exports = userRouter;

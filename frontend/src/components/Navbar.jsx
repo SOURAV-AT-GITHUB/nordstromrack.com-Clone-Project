@@ -83,10 +83,10 @@ const dispatch = useDispatch()
         <div className="relative flex py-2 gap-6  px-4">
           <div className="group">
             <div className="flex items-center gap-2">
-              {authorization.user && authorization.token ? (
-                <p>Hi, {authorization.user.firstname}</p>
+              {authorization.firstname && authorization.token ? (
+                <p>Hi, {authorization.firstname}</p>
               ) : (
-                <NavLink to={"/login"}>
+                <NavLink to={"/signin"}>
                   <p>Sign In</p>
                 </NavLink>
               )}
@@ -96,7 +96,7 @@ const dispatch = useDispatch()
             <div className="absolute hidden  group-hover:block z-10  text-center  shadow-2xl p-4 -left-24 top-14 border-2 bg-white">
               <div className="triangle"></div>
               {!authorization.token && (
-                <NavLink to="/login">
+                <NavLink to="/signin">
                   <button className="p-4 bg-blue-600 text-white">
                     <p className="text-lg">Sign In | Create Account</p>
                   </button>
@@ -104,7 +104,7 @@ const dispatch = useDispatch()
               )}
               {options.map((section, index) => (
                 <ul key={index} className="grid my-5 text-left">
-                  <p className="text-xl font-semibold">{(index === 0 && authorization.token )? `${authorization.user.firstname}'s Account`:section[0]}</p>
+                  <p className="text-xl font-semibold">{(index === 0 && authorization.token )? `${authorization.firstname}'s Account`:section[0]}</p>
                   {section[1].map((item, i) => (
                     <a
                       href=""

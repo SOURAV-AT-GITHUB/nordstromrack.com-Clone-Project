@@ -6,6 +6,7 @@ import Home from "./pages/Home/Home";
 import CategoryNavigationMenu from "./components/CategoryNavigationMenu";
 import Footer from "./components/Footer";
 import SignIn from "./pages/SignIn.jsx/SignIn";
+import HomeRedirect from "./components/HomeRedirect";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
-
+    <Route path="*" element={<HomeRedirect/>}/>
       </Routes>
       <Footer/>
     </>

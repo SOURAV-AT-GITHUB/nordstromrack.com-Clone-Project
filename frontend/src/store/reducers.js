@@ -1,31 +1,29 @@
 const defaultAuthState = {
-  user: {firstname:"Test"},
-  token: true,
-  isLoading: false,
-  isError: false,
+  firstname: null,
+  lastname: null,
+  email: null,
+  token: false,
 };
 
 export const authReducer = (
-  state = { ...defaultAuthState },
+  state = JSON.parse(localStorage.getItem("user")) || { ...defaultAuthState },
   { type, payload }
 ) => {
   switch (type) {
-    case "Login": {
-      const { email, password } = payload;
-      if (!email || !password) {
-        return (state = { ...defaultAuthState, isError: true });
-      } else {
-        //
-      }
+    case "signin": {
+      const { firstname, lastname, email, token } = payload;
+      state = { firstname, lastname, email, token };
+      localStorage.setItem("user", JSON.stringify(state));
+      
+      return state;
     }
-    break 
-    case "Logout" : {
-      return state = {
-            user: null,
-            token: null,
-            isLoading: false,
-            isError: false,
-          }
+
+    case "logout": {
+      state = {
+        ...defaultAuthState,
+      };
+      localStorage.setItem("user", JSON.stringify(state));
+      return state;
     }
     default:
       return state;
@@ -42,11 +40,11 @@ export const cartReducer = (
   { type, payload }
 ) => {
   switch (type) {
-    case "ADD": {
+    case "add": {
       state = { ...state, items: [...state.items, { ...payload }] };
       return state;
     }
-    case "Remove": {
+    case "remove": {
       state = {
         ...state,
         items: [state.items.filter((item) => item.id !== payload.id)],

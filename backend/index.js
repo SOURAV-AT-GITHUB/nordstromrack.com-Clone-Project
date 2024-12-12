@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cors())
 app.use('/products',productsRouter)
+app.use('/user',userRouter)
 
 app.get("/",(req,res)=>{
       res.json({message:"Home route, server running fine."})

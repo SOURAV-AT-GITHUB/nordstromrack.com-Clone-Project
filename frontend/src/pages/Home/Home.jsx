@@ -9,6 +9,7 @@ import banner2 from "/Homepage/banner-2.webp";
 import endbanner from '/Homepage/end-banner.webp'
 import ProductCardsSlider from "../../components/ProductCardsSlider";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function Home() {
@@ -39,15 +40,18 @@ export default function Home() {
     <main className="p-6 flex flex-col gap-5">
       {authorization.token ? (
         <div className="p-6  pb-20">
-          <p className="text-3xl font-bold">Welcome back, {authorization.user.firstname}!</p>
+          <p className="text-3xl font-bold">Welcome back, {authorization.firstname}!</p>
 
         </div>
       ) : (
         <div className="text-center p-16">
           <p className="text-3xl font-bold">More to Rack, easier and faster</p>
+          <NavLink to={'/signin'}>
+
           <button className="border border-blue-500 p-2 px-6  mt-5 text-sm tracking-wider">
             Sign In or Create an Acount
           </button>
+          </NavLink>
         </div>
       )}
       <div className="flex">

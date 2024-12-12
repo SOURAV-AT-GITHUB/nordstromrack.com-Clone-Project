@@ -10,7 +10,6 @@ export default function ProductCardsSlider({ URL = false }) {
       alert("Something went wrong.");
       return;
     }
-    console.log(URL);
 
     try {
       const response = await axios.get(URL);
