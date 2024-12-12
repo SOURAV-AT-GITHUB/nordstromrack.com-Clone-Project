@@ -5,8 +5,6 @@ import SkeletonCard from "./SkeletonCard";
 import axios from "axios";
 export default function ProductCardsSlider({ URL = false }) {
   const [data, setData] = useState(false);
-  console.log(URL);
-  
   const getData = async () => {
     if (!URL) {
       alert("Something went wrong.");
