@@ -7,6 +7,7 @@ import CategoryNavigationMenu from "./components/CategoryNavigationMenu";
 import Footer from "./components/Footer";
 import SignIn from "./pages/SignIn.jsx/SignIn";
 import HomeRedirect from "./components/HomeRedirect";
+import Cart from "./pages/Cart/Cart";
 
 function App() {
   return (
@@ -17,9 +18,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
-    <Route path="*" element={<HomeRedirect/>}/>
+        <Route path="/cart" element={<Cart />} />
+        <Route path="*" element={<HomeRedirect />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </>
   );
 }
