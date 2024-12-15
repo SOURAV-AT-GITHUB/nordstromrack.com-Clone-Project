@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import ImageChangingCard from "./ImageChangingCard";
-import NormalCard from "./NormalCard";
+import ProductCards from "./ProductCards";
 import SkeletonCard from "./SkeletonCard";
 import axios from "axios";
+
 export default function ProductCardsSlider({ URL = false }) {
   const [data, setData] = useState(false);
   const getData = async () => {
@@ -10,13 +10,11 @@ export default function ProductCardsSlider({ URL = false }) {
       alert("Something went wrong.");
       return;
     }
-
     try {
       const response = await axios.get(URL);
+
       setData(response.data.data);
     } catch (error) {
-      console.log(error);
-
       setData(false);
     }
   };
@@ -27,11 +25,7 @@ export default function ProductCardsSlider({ URL = false }) {
     <div className="flex   gap-6  overflow-x-auto ">
       {(data ? data : Array.from({ length: 10 })).map((product, index) =>
         product ? (
-          product.isMultipleImages ? (
-            <ImageChangingCard data={product} key={index} />
-          ) : (
-            <NormalCard data={product} key={index} />
-          )
+          <ProductCards data={product} key={index} />
         ) : (
           <SkeletonCard key={index} />
         )

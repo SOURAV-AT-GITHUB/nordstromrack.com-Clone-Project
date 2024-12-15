@@ -1,3 +1,9 @@
+import {
+  CART_DATA_REQUEST,
+  CART_DATA_SUCCESS ,
+  CART_DATA_FAILURE,
+} from "./actionTypes";
+
 const defaultAuthState = {
   firstname: null,
   lastname: null,
@@ -14,11 +20,11 @@ export const authReducer = (
       const { firstname, lastname, email, token } = payload;
       state = { firstname, lastname, email, token };
       localStorage.setItem("user", JSON.stringify(state));
-      
+
       return state;
     }
 
-    case "logout": {
+    case "signout": {
       state = {
         ...defaultAuthState,
       };
@@ -31,26 +37,33 @@ export const authReducer = (
 };
 
 const defaultCartState = {
-  id: null,
   email: null,
+  subtotal:0.00,
+  estimatedTax:0.00,
+  savings:0.00,
   items: [],
+  isLoading: false,
+  isError: null,
 };
-export const cartReducer = (
-  state = { ...defaultCartState },
-  { type, payload }
-) => {
+export const cartReducer = (state = defaultCartState, { type, payload }) => {
   switch (type) {
-    case "add": {
-      state = { ...state, items: [...state.items, { ...payload }] };
-      return state;
-    }
-    case "remove": {
-      state = {
+    case CART_DATA_REQUEST:
+      return { ...state, isLoading: true, isError: null };
+    case CART_DATA_SUCCESS:
+      return {
         ...state,
-        items: [state.items.filter((item) => item.id !== payload.id)],
+        isLoading: false,
+        isError: false,
+        ...payload
+        // email: payload.email,
+        // subtotal:payload.subtotal,
+        // estimatedTax:payload.estimatedTax,
+        // savings:payload.savings,
+        // items: payload.items || [],
       };
-      return state;
-    }
+    case CART_DATA_FAILURE:
+      return { ...state, isLoading: false, isError: payload };
+
     default:
       return state;
   }

@@ -58,7 +58,9 @@ export default function Navbar() {
   ];
   const [currentPlaceholder, setCurrentPlaceholder] = useState(placeholders[0]);
   const authorization = useSelector((store) => store.authorization);
-const dispatch = useDispatch()
+  const cartData = useSelector((store) => store.cart);
+  const dispatch = useDispatch();
+  const [cartCount,setCartCount] = useState(0)
   useEffect(() => {
     let index = 0;
     const interval = setInterval(() => {
@@ -67,6 +69,13 @@ const dispatch = useDispatch()
     }, 2000);
     return () => clearInterval(interval);
   }, []);
+  useEffect(()=>{
+    let count =0
+    if(cartData.items.length >0){
+      cartData.items.forEach(item=>count+=item.quantity)
+    }
+    setCartCount(count)
+  },[dispatch,cartData])
   return (
     <nav className="px-2 py-6" id="navbar">
       <div className="flex items-center justify-between gap-4 mb-4 ">
@@ -104,7 +113,11 @@ const dispatch = useDispatch()
               )}
               {options.map((section, index) => (
                 <ul key={index} className="grid my-5 text-left">
-                  <p className="text-xl font-semibold">{(index === 0 && authorization.token )? `${authorization.firstname}'s Account`:section[0]}</p>
+                  <p className="text-xl font-semibold">
+                    {index === 0 && authorization.token
+                      ? `${authorization.firstname}'s Account`
+                      : section[0]}
+                  </p>
                   {section[1].map((item, i) => (
                     <a
                       href=""
@@ -121,7 +134,14 @@ const dispatch = useDispatch()
                   ))}
                 </ul>
               ))}
-{    authorization.token &&          <p className="text-left text-lg cursor-pointer" onClick={()=>dispatch({type:"Logout"})}>Signout</p>}
+              {authorization.token && (
+                <p
+                  className="text-left text-lg cursor-pointer"
+                  onClick={() => dispatch({ type: "signout" })}
+                >
+                  Signout
+                </p>
+              )}
             </div>
           </div>
 
@@ -134,7 +154,15 @@ const dispatch = useDispatch()
             <img src={purchasesIcon} alt="purchases" />
             <p>Purchases</p>
           </div>
-          <img src={cartIcon} alt="cart" />
+          <NavLink to='/cart'>
+
+          <div className="relative">
+            <img src={cartIcon} alt="cart" className="h-7"/>
+            <p className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 text-xs pt-1 font-bold">
+              {cartCount}
+            </p>
+          </div>
+          </NavLink>
         </div>
       </div>
       <hr className="border-black" />

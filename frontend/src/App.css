@@ -1,16 +1,23 @@
 .triangle {
-      position: absolute;
-      width: 0;
-      height: 0;
-      top: -20px;
-      left: 50%;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-bottom: 20px solid #f3f3f3; /* This is the color of the triangle */
-      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    }
-    
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: -20px;
+  left: 50%;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 20px solid #f3f3f3; /* This is the color of the triangle */
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
 /* .bg-white-transparent{
   background-color: #ffffffc5;
 } */
+.transparent-blur {
+
+  background-color: rgba(0, 0, 0, 0.3); /* Transparent background */
+  backdrop-filter: blur(3px); /* Blur the background */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+
+}

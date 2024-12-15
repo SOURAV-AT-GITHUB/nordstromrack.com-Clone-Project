@@ -1,1 +1,1 @@
-remove chakra ui and add material ui
+update quantity functionality and cart page

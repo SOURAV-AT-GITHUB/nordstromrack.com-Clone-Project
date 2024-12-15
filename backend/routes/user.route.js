@@ -1,6 +1,7 @@
 const express = require("express");
 const userRouter = express.Router();
 const UserModel = require("../models/user.model");
+const CartModel = require('../models/cart.model')
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 require("dotenv");
@@ -35,7 +36,12 @@ userRouter.post("/register", async (req, res) => {
                 lastname,
                 password: hash,
               });
+              const newUsersCart = new CartModel({
+                email,
+                data:[]
+              })
               await newUSer.save();
+              await newUsersCart.save()
               res.status(201).json({ message: "Account Created" });
             } catch (error) {
               res

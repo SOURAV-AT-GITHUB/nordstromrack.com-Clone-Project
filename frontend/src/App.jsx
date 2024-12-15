@@ -8,8 +8,15 @@ import Footer from "./components/Footer";
 import SignIn from "./pages/SignIn.jsx/SignIn";
 import HomeRedirect from "./components/HomeRedirect";
 import Cart from "./pages/Cart/Cart";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { updateCartData } from "./store/actions"
 function App() {
+  const authorization = useSelector((store) => store.authorization);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updateCartData(authorization.token, "get"));
+  }, [dispatch, authorization]);
   return (
     <>
       <PromoBanner />

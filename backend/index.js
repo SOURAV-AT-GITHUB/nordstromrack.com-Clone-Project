@@ -4,7 +4,7 @@ const cors = require("cors")
 const DBConnection = require("./config/DBConnection");
 const productsRouter = require("./routes/products.route")
 const userRouter = require("./routes/user.route");
-const cartRouter = require("./routes/cart.model");
+const cartRouter = require("./routes/cart.route");
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
